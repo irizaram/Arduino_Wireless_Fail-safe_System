@@ -9,7 +9,10 @@
 int msg[1];
 RF24 radio(9,10);
 const uint64_t pipe = 0xE8E8F0F0E1LL;
+//-----------Alteration--------------
+//    To keep wires together, and appearing more organized
 int indicatorLED = 6;
+//-----------------------------------
 
 //Setup Void Code
 void setup(void){
@@ -31,8 +34,15 @@ void loop(void){
    
    //Always check for a command to be given from the transmitter
    while (!terminate){
+     
      //Read the transmission being given from the transmiter
      terminate = radio.read(msg, 1);      
+     
+          
+     //-----------Alteration--------------
+     
+     //     Code to determine the signal being received is
+     
      delay(50);
      //If the termination button has been pressed
      if (msg[0] == 50 ){
@@ -48,11 +58,17 @@ void loop(void){
      delay(50);
      }
    }
+   //-----------------------------------
+   
  //If there is no detection of the transmitter, the reciever will shut down the motor
+ //-----------Alteration--------------
+ //     Had to add LED code and delay, for this is not just to indicate that there is no transmission. This is a
+ //     condition in which determines wheter the LED remains on or off.
  else{
    Serial.println("WARNING! LOST CONNECTION WITH TRANSMITTER! COMMENCING EMERGENCY SHUTDOWN!");
    digitalWrite(indicatorLED, LOW);
    delay(100);
  }
+ //-----------------------------------
 }
 
